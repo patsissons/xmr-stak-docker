@@ -1,0 +1,10 @@
+diff --git a/xmrstak/donate-level.hpp b/xmrstak/donate-level.hpp
+index 0f851f8..72f088a 100644
+--- a/xmrstak/donate-level.hpp
++++ b/xmrstak/donate-level.hpp
+@@ -16,4 +16,4 @@
+  * Thank you for your support.
+  */
+
+-constexpr double fDevDonationLevel = 2.0 / 100.0;
++constexpr double fDevDonationLevel = 0.0;

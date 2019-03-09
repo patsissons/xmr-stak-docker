@@ -20,8 +20,6 @@ You need to have already installed [nvidia-docker](https://github.com/NVIDIA/nvi
 
 Installing cuda drivers on [ubuntu 16.04](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1604&target_type=debnetwork) is the easiest way to get things going. You can install the drivers with `apt-get install --no-install-recommends cuda-drivers`. Make sure to reboot after installing new drivers.
 
-If you have an NVIDIA graphics card in your docker host, you can leverage this card to provide additional hashing power. `xmrig-nvidia` can be used in parallel with the cpu miner.
-
 ## Donations
 
 If you find this docker image useful, donations for work on dockerizing the build and mining app are appreciated at any of the folllowing addresses:

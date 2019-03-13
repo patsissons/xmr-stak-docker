@@ -45,7 +45,7 @@ RUN dpkg --add-architecture i386 \
     && rm ${AMDGPU_DRIVER_NAME}.tar.xz \
     && chmod +x ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install \
 #    && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y --headless --opencl=legacy \
-	&& ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y \
+    && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y \
     && rm -r ${AMDGPU_DRIVER_NAME} \
     && apt-get -y autoremove \
     && apt-get clean autoclean \

@@ -39,7 +39,7 @@ ENV AMDGPU_DRIVER_URI=https://www2.ati.com/drivers/linux/beta/${DISTRO_NAME}/${A
 RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -qq --no-install-recommends -y ca-certificates libhwloc5 libmicrohttpd10 libssl1.0.0 libuv1 wget xz-utils \
-    && wget --referer https://support.amd.com ${AMDGPU_DRIVER_URI} \
+    && wget -q --show-progress --progress=bar:force:noscroll --referer https://support.amd.com ${AMDGPU_DRIVER_URI} \
     && tar -xvf ${AMDGPU_DRIVER_NAME}.tar.xz \
     && SUDO_FORCE_REMOVE=yes apt-get -y remove --purge wget xz-utils \
     && rm ${AMDGPU_DRIVER_NAME}.tar.xz \

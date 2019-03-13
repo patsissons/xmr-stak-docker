@@ -1,4 +1,4 @@
-ARG CUDA_VERSION=10.0
+ARG CUDA_VERSION=10.1
 ARG BUILD_FLAVOUR=devel
 ARG RUN_FLAVOUR=runtime
 ARG DISTRO_NAME=ubuntu
@@ -13,14 +13,14 @@ COPY donate-level.patch /tmp
 
 RUN apt-get update \
     && set -x \
-    && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake cuda-core-10-0 git cuda-cudart-dev-10-0 libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+    && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake cuda-core-10-1 git cuda-cudart-dev-10-1 libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
     && git clone $GIT_REPOSITORY \
     && git -C xmr-stak apply /tmp/donate-level.patch \
     && cd /xmr-stak \
     && cmake ${XMRSTAK_CMAKE_FLAGS} . \
     && make \
     && cd - \
-    && apt-get purge -y -qq build-essential cmake cuda-core-10-0 git cuda-cudart-dev-10-0 libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+    && apt-get purge -y -qq build-essential cmake cuda-core-10-1 git cuda-cudart-dev-10-1 libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
     && apt-get clean -qq
 
 FROM nvidia/cuda:${CUDA_VERSION}-${RUN_FLAVOUR}-${DISTRO_NAME}${DISTRO_VERSION}

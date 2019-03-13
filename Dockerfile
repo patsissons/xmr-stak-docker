@@ -34,7 +34,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 #ENV AMDGPU_DRIVER_NAME=amdgpu-pro-${AMDGPU_VERSION}-${DISTRO_NAME}-${DISTRO_VERSION}
 #ENV AMDGPU_DRIVER_URI=https://drivers.amd.com/drivers/linux/${AMDGPU_DRIVER_NAME}.tar.xz
 ENV AMDGPU_DRIVER_NAME=amdgpu-pro-${AMDGPU_VERSION}
-ENV AMDGPU_DRIVER_URI=https://www2.ati.com/drivers/linux/beta/${DISTRO_NAME}/${AMDGPU_DRIVER_NAME}.tar.xz
+ENV AMDGPU_DRIVER_URI=https://www2.ati.com/drivers/linux/${DISTRO_NAME}/${AMDGPU_DRIVER_NAME}.tar.xz
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \

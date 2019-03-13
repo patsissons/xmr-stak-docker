@@ -36,8 +36,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ENV AMDGPU_DRIVER_NAME=amdgpu-pro-${AMDGPU_VERSION}
 ENV AMDGPU_DRIVER_URI=https://www2.ati.com/drivers/linux/beta/${DISTRO_NAME}/${AMDGPU_DRIVER_NAME}.tar.xz
 
-COPY --from=build /xmr-stak/bin/* /usr/local/bin/
-
 RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -qq --no-install-recommends -y ca-certificates libhwloc5 libmicrohttpd10 libssl1.0.0 libuv1 wget xz-utils \
@@ -52,6 +50,8 @@ RUN dpkg --add-architecture i386 \
     && apt-get -y autoremove \
     && apt-get clean autoclean \
     && rm -rf /var/lib/{apt,dpkg,cache,log}
+
+COPY --from=build /xmr-stak/bin/* /usr/local/bin/
 
 WORKDIR /config
 VOLUME /config

@@ -37,7 +37,7 @@ AMD requires only drivers installed on the host to interact with the hardware.
 
 #### `amdgpu-pro`
 
-You need to have installed the [`AMDGPU-Pro` drivers (`17.40-492261`)](https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdgpupro) on the host machine and then run the docker image with `--device=/dev/dri --device=/dev/kfd --group-add=video`.
+You need to have installed the [`AMDGPU-Pro` drivers (`17.40-514569`)](https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdgpupro-17-40-0) on the host machine and then run the docker image with `--device=/dev/dri --device=/dev/kfd --group-add=video`.
 
 #### Testing
 

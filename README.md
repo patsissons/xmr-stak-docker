@@ -15,6 +15,18 @@
 
 `docker run --runtime=nvidia --device=/dev/dri --device=/dev/kfd --group-add=video -it -d --name xmr-stak -p 8000:8000  -v xmr-stak-config:/config patsissons/xmr-stak:develop -o ca.minexmr.com:5555 -u 47NHecs6qjvDcbx3eW6cDGDwdm3gDqbHs7G8hzPYRxf3YRTcDJw8kXhDxfHinsjHUwVwdFusSn76UHkaz68KurUgHvFmPMH.github-xmr-stak -p x --currency monero --httpd 8000`
 
+* A more [comprehensive script](https://github.com/patsissons/xmr-stak-docker/blob/master/start-xmr-stak.sh) to simplify the process of starting and uprading the miner. Running `sudo ./start-xmr-stak.sh` will pull down the latest version while still mining, then stop and upgrade the container to resume mining with minimal downtime. If you want to use this script with the latest `develop` builds, run `sudo ./start-xmr-stak.sh develop` instead. The script is ready to accept overrides for a few environment variables to simplify multi-host distribution.
+
+|Environment Variable|Default Value|Notes|
+|-|-|-|
+|`ADDRESS`|N/A|make sure to replace the default with your own address or you will be mining to my address|
+|`HOST`|`hostname -s`|override this if you want a custom host name that is different from your actual host name|
+|`PORT`|`8000`|if another container or process is already using port `8000` this can be adjusted|
+|`POOL_HOST`|N/A|make sure to replace this with your own pool remote uri|
+|`POOL_USER`|`$ADDRESS.$HOST-$TAG`|adjust this to your needs|
+|`POOL_PASS`|`x`|adjust this to your needs|
+|`CURRENCY`|`monero`|adjust this to your needs|
+
 ## Host requirements
 
 Everything has been tested on [Ubuntu 16 LTS (Xenial)](http://archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/current/images/netboot/mini.iso), but may also possibly work on [Ubuntu 18 (Bionic)](http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/mini.iso). For the most stable results, try and ensure your docker container environments match the host environment, especially for driver versions.

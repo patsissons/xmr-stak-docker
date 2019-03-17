@@ -16,13 +16,13 @@ WORKDIR /tmp
 
 RUN  set -x \
   && apt-get update \
-  && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+  && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake git libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
   && git clone --single-branch --depth 1 --branch $GIT_BRANCH $GIT_REPOSITORY xmr-stak \
   && git -C xmr-stak apply /tmp/donate-level.patch \
   && cd xmr-stak \
   && cmake ${CMAKE_FLAGS} . \
   && make \
-  && apt-get purge -y -qq build-essential cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+  && apt-get purge -y -qq build-essential cmake libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
   && apt-get clean -qq
 
 FROM nvidia/cuda:${CUDA_VERSION}-${RUN_FLAVOUR}-${DISTRO_NAME}${DISTRO_VERSION}

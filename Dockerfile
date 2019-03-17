@@ -7,22 +7,23 @@ ARG DISTRO_VERSION=16.04
 FROM nvidia/cuda:${CUDA_VERSION}-${BUILD_FLAVOUR}-${DISTRO_NAME}${DISTRO_VERSION} as build
 
 ENV GIT_REPOSITORY=https://github.com/fireice-uk/xmr-stak.git \
-    GIT_BRANCH=master \
-ENV XMRSTAK_CMAKE_FLAGS -DXMR-STAK_COMPILE=generic -DCUDA_ENABLE=ON -DOpenCL_ENABLE=ON
+    GIT_BRANCH=master
+ENV CMAKE_FLAGS -DXMR-STAK_COMPILE=generic -DCUDA_ENABLE=ON -DOpenCL_ENABLE=ON
 
 COPY donate-level.patch /tmp
 
-RUN apt-get update \
-    && set -x \
-    && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
-    && git clone --single-branch --depth 1 --branch $GIT_BRANCH $GIT_REPOSITORY \
-    && git -C xmr-stak apply /tmp/donate-level.patch \
-    && cd /xmr-stak \
-    && cmake ${XMRSTAK_CMAKE_FLAGS} . \
-    && make \
-    && cd - \
-    && apt-get purge -y -qq build-essential cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
-    && apt-get clean -qq
+WORKDIR /tmp
+
+RUN  set -x \
+  && apt-get update \
+  && apt-get install -qq --no-install-recommends -y build-essential ca-certificates cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+  && git clone --single-branch --depth 1 --branch $GIT_BRANCH $GIT_REPOSITORY xmr-stak \
+  && git -C xmr-stak apply /tmp/donate-level.patch \
+  && cd xmr-stak \
+  && cmake ${CMAKE_FLAGS} . \
+  && make \
+  && apt-get purge -y -qq build-essential cmake cuda-core-$CUDA_PKG_VERSION git cuda-cudart-dev-$CUDA_PKG_VERSION libhwloc-dev libmicrohttpd-dev libssl-dev ocl-icd-opencl-dev \
+  && apt-get clean -qq
 
 FROM nvidia/cuda:${CUDA_VERSION}-${RUN_FLAVOUR}-${DISTRO_NAME}${DISTRO_VERSION}
 
@@ -37,26 +38,31 @@ ENV DEBIAN_FRONTEND=noninteractive \
 ENV AMDGPU_DRIVER_NAME=amdgpu-pro-${AMDGPU_VERSION}
 ENV AMDGPU_DRIVER_URI=https://www2.ati.com/drivers/linux/${DISTRO_NAME}/${AMDGPU_DRIVER_NAME}.tar.xz
 
-RUN dpkg --add-architecture i386 \
-    && apt-get update \
-    && apt-get install -qq --no-install-recommends -y ca-certificates libhwloc5 libmicrohttpd10 libssl1.0.0 libuv1 wget xz-utils \
-    && wget -q --show-progress --progress=bar:force:noscroll --referer https://support.amd.com ${AMDGPU_DRIVER_URI} \
-    && tar -xvf ${AMDGPU_DRIVER_NAME}.tar.xz \
-    && SUDO_FORCE_REMOVE=yes apt-get -y remove --purge wget xz-utils \
-    && rm ${AMDGPU_DRIVER_NAME}.tar.xz \
-    && chmod +x ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install \
-#    && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y --headless --opencl=legacy \
-    && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y \
-    && rm -r ${AMDGPU_DRIVER_NAME} \
-    && apt-get -y autoremove \
-    && apt-get clean autoclean \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}
+RUN set -x \
+  && adduser --system --disabled-password --home /config miner \
+  && dpkg --add-architecture i386 \
+  && apt-get update \
+  && apt-get install -qq --no-install-recommends -y ca-certificates libhwloc5 libmicrohttpd10 libssl1.0.0 libuv1 wget xz-utils \
+  && wget -q --show-progress --progress=bar:force:noscroll --referer https://support.amd.com ${AMDGPU_DRIVER_URI} \
+  && tar -xvf ${AMDGPU_DRIVER_NAME}.tar.xz \
+  && SUDO_FORCE_REMOVE=yes apt-get -y remove --purge wget xz-utils \
+  && rm -f ${AMDGPU_DRIVER_NAME}.tar.xz \
+  && chmod +x ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install \
+#  && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y --headless --opencl=legacy \
+  && ./${AMDGPU_DRIVER_NAME}/amdgpu-pro-install -y \
+  && rm -rf ${AMDGPU_DRIVER_NAME} \
+  && rm -rf /var/opt/amdgpu-pro-local \
+  && apt-get -y autoremove \
+  && apt-get clean autoclean \
+  && rm -rf /var/lib/{apt,dpkg,cache,log}
 
-COPY --from=build /xmr-stak/bin/* /usr/local/bin/
+COPY --from=build /tmp/xmr-stak/bin/* /usr/local/bin/
+
+USER miner
 
 WORKDIR /config
 VOLUME /config
 
 ENTRYPOINT ["/usr/local/bin/xmr-stak"]
 
-CMD ["-h"]
+CMD ["--help"]

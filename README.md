@@ -1,6 +1,6 @@
 # xmr-stak Universal Docker Miner
 
-[![Docker Stars](https://img.shields.io/docker/stars/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Pulls](https://img.shields.io/docker/pulls/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Build Status](https://img.shields.io/docker/cloud/build/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/)
+[![Docker Stars](https://img.shields.io/docker/stars/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Pulls](https://img.shields.io/docker/pulls/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Build Status](https://img.shields.io/docker/cloud/build/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/builds) [![Docker Layers](https://images.microbadger.com/badges/image/patsissons/xmr-stak.svg)](https://microbadger.com/images/patsissons/xmr-stak)
 
 `xmr-stak` docker image that can mine CPU, AMD, and NVIDIA at the same time. One mining container to rule them all!
 
@@ -11,9 +11,11 @@
 
 ## Usage
 
-* A simple one liner to get the container mining right awa
+* A simple one liner to get the container mining right away
 
-`docker run --runtime=nvidia --device=/dev/dri --device=/dev/kfd --group-add=video -it -d --name xmr-stak -p 8000:8000  -v xmr-stak-config:/config patsissons/xmr-stak:develop -o ca.minexmr.com:5555 -u 47NHecs6qjvDcbx3eW6cDGDwdm3gDqbHs7G8hzPYRxf3YRTcDJw8kXhDxfHinsjHUwVwdFusSn76UHkaz68KurUgHvFmPMH.github-xmr-stak -p x --currency monero --httpd 8000`
+```bash
+docker run --runtime=nvidia --device=/dev/dri --device=/dev/kfd --group-add=video -it -d --name xmr-stak -p 8000:8000  -v xmr-stak-config:/config patsissons/xmr-stak:develop -o ca.minexmr.com:5555 -u 47NHecs6qjvDcbx3eW6cDGDwdm3gDqbHs7G8hzPYRxf3YRTcDJw8kXhDxfHinsjHUwVwdFusSn76UHkaz68KurUgHvFmPMH.github-xmr-stak -p x --currency monero --httpd 8000
+```
 
 * A more [comprehensive script](https://github.com/patsissons/xmr-stak-docker/blob/master/start-xmr-stak.sh) to simplify the process of starting and uprading the miner. Running `sudo ./start-xmr-stak.sh` will pull down the latest version while still mining, then stop and upgrade the container to resume mining with minimal downtime. If you want to use this script with the latest `develop` builds, run `sudo ./start-xmr-stak.sh develop` instead. The script is ready to accept overrides for a few environment variables to simplify multi-host distribution.
 
@@ -29,7 +31,7 @@
 
 ## Host requirements
 
-Everything has been tested on [Ubuntu 16 LTS (Xenial)](http://archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/current/images/netboot/mini.iso), but may also possibly work on [Ubuntu 18 (Bionic)](http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/mini.iso). For the most stable results, try and ensure your docker container environments match the host environment, especially for driver versions.
+Everything has been tested on [Ubuntu 16 LTS (Xenial)](http://archive.ubuntu.com/ubuntu/dists/xenial/main/installer-amd64/current/images/netboot/mini.iso), but may also possibly work on [Ubuntu 18 LTS (Bionic)](http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/mini.iso). For the most stable results, try and ensure your docker container environments match the host environment, especially for driver versions.
 
 ### AMD Requirements
 
@@ -37,7 +39,7 @@ AMD requires only drivers installed on the host to interact with the hardware.
 
 #### `amdgpu-pro`
 
-You need to have installed the [`AMDGPU-Pro` drivers (`17.40-492261`)](https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdgpupro) on the host machine and then run the docker image with `--device=/dev/dri --device=/dev/kfd --group-add=video`.
+You need to have installed the [`AMDGPU-Pro` drivers (`17.40-514569`)](https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdgpupro-17-40-0) on the host machine and then run the docker image with `--device=/dev/dri --device=/dev/kfd --group-add=video`.
 
 #### Testing
 

@@ -2,12 +2,13 @@
 
 [![Docker Stars](https://img.shields.io/docker/stars/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Pulls](https://img.shields.io/docker/pulls/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/) [![Docker Build Status](https://img.shields.io/docker/cloud/build/patsissons/xmr-stak.svg)](https://hub.docker.com/r/patsissons/xmr-stak/builds) [![Docker Layers](https://images.microbadger.com/badges/image/patsissons/xmr-stak.svg)](https://microbadger.com/images/patsissons/xmr-stak)
 
-`xmr-stak` docker image that can mine CPU, AMD, and NVIDIA at the same time. One mining container to rule them all!
+[`xmr-stak`](https://github.com/fireice-uk/xmr-stak) docker image that can mine CPU, AMD, and NVIDIA at the same time. One mining container to rule them all!
 
 ## Tags
 
 * `latest`: the latest stable version
 * `develop`: the latest testing version (may not be stable). A new version of `xmr-stak` will start here and typically migrate to `latest` in a couple of days.
+* `experimental`: a completely untested version running an experimental build
 
 ## Usage
 

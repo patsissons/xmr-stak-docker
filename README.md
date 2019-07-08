@@ -7,8 +7,10 @@
 ## Tags
 
 * `latest`: the latest stable version
-* `develop`: the latest testing version (may not be stable). A new version of `xmr-stak` will start here and typically migrate to `latest` in a couple of days.
+* `develop`: the latest testing version (may not be stable). A new version of `xmr-stak` will start here and typically migrate shortly to `beta`.
 * `experimental`: a completely untested version running an experimental build
+* `beta`: the next upcoming release version. A `develop` version will migrate here, and typically migrate shortly to `latest`.
+* _VERSION_: the tagged version of `xmr-stak` build
 
 ## Usage
 

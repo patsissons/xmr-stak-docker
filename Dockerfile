@@ -7,7 +7,7 @@ ARG DISTRO_VERSION=16.04
 FROM nvidia/cuda:${CUDA_VERSION}-${BUILD_FLAVOUR}-${DISTRO_NAME}${DISTRO_VERSION} as build
 
 ENV GIT_REPOSITORY=https://github.com/fireice-uk/xmr-stak.git \
-    GIT_BRANCH=master
+    GIT_BRANCH=2.10.5
 ENV CMAKE_FLAGS -DXMR-STAK_COMPILE=generic -DCUDA_ENABLE=ON -DOpenCL_ENABLE=ON
 
 COPY donate-level.patch /tmp
